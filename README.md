@@ -1,3 +1,3 @@
 # Games-API
 
-## Developers: Kristjan Kivikangur
+## Developers: Kristjan Kivikangur, 
