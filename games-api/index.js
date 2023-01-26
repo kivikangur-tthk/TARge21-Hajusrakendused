@@ -15,12 +15,15 @@ const pool = mariadb.createPool({
     connectionLimit: 5
 })
 
+app.get("/errors", async (req,res)=>{
+    res.statusCode(400).send({"error":"something went wrong"})
+})
+
 app.get("/customers", async (req, res) => {
     let connection
     try {
         connection = await pool.getConnection()
         const rows = await connection.query("SELECT * FROM customers")
-        console.log(rows)
         res.send(rows)
     } catch (error) {
         throw error
