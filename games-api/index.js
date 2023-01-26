@@ -33,7 +33,6 @@ app.get("/customers", async (req, res) => {
     try {
         connection = await pool.getConnection()
         const rows = await connection.query("SELECT * FROM customers")
-        console.log(rows)
         res.send(rows)
     } catch (error) {
         throw error
