@@ -8,6 +8,22 @@ module.exports = (sequelize,Sequelize) => {
         name: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        description: {
+            type: Sequelize.STRING(4096),
+            allowNull: false
+        },
+        studio: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        genre: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        releasedate: {
+            type: Sequelize.DATEONLY,
+            allowNull: false
         }
     })
 
