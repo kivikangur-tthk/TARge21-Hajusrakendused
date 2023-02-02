@@ -16,7 +16,19 @@ exports.getById = async (req, res) => {
 }
 
 exports.createNew = async (req, res) => {
-  const game = await Game.create(req.body)
+  let game
+  try {
+    game = await Game.create(req.body)
+  } catch (error) {
+    if (error instanceof db.Sequelize.ValidationError) {
+      console.log(error)
+      res.status(400).send({"error":"Invalid input"})
+    } else {
+      console.log("GamesCreate: ",error)
+      res.status(500).send({"error":"Something went wrong on our side. Sorry :("})
+    }
+    return
+  }
   res
     .status(201)
     .location(`${getBaseUrl(req)}/games/${game.id}`)
