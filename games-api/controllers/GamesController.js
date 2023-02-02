@@ -21,8 +21,7 @@ exports.createNew = async (req, res) => {
     game = await Game.create(req.body)
   } catch (error) {
     if (error instanceof db.Sequelize.ValidationError) {
-      console.log(error)
-      res.status(400).send({"error":"Invalid input"})
+      res.status(400).send({"error":error.errors.map((item)=> item.message)})
     } else {
       console.log("GamesCreate: ",error)
       res.status(500).send({"error":"Something went wrong on our side. Sorry :("})
