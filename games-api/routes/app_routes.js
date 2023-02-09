@@ -7,5 +7,5 @@ module.exports = (app) => {
     app.route("/games/:id")
         .get(gamesController.getById)       // Read
     //  .put(gamesController.updateById)    // Update
-    //  .delete(gamesController.deleteById) // Delete
+        .delete(gamesController.deleteById) // Delete
 }
