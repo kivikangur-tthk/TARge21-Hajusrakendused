@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "TARgv21 Games-API",
+        "title": "TARge21 Games-API",
         "version": "1.0.0",
         "description": "### This is a Swagger UI for our Games API"
     },
@@ -160,6 +160,99 @@
                 "summary": "Get details of the game with given ID",
                 "description": "Return all the details of the game\n"
             },
+            "put": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Game"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "tags": [
+                    "Games"
+                ],
+                "responses": {
+                    "200": {
+                        "headers": {
+                            "location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Game"
+                                }
+                            }
+                        },
+                        "description": "Game was updated\n"
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                }
+                            }
+                        },
+                        "description": "Missing required fields"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                }
+                            }
+                        },
+                        "description": "Game not found"
+                    }
+                },
+                "summary": "Update Game"
+            },
+            "delete": {
+                "tags": [
+                    "Games"
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Game deleted"
+                    },
+                    "404": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                }
+                            }
+                        },
+                        "description": "Game not found"
+                    },
+                    "500": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/error"
+                                },
+                                "examples": {
+                                    "ServerError": {
+                                        "value": {
+                                            "error": "Something went wrong on our side. Sorry :("
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Server messed up"
+                    }
+                },
+                "summary": "Remove game"
+            },
             "parameters": [
                 {
                     "name": "id",
@@ -192,9 +285,11 @@
                 "title": "Root Type for Game",
                 "description": "Game details",
                 "required": [
-                    "release",
+                    "releasedate",
                     "name",
-                    "genre"
+                    "genre",
+                    "description",
+                    "studio"
                 ],
                 "type": "object",
                 "properties": {
@@ -225,7 +320,7 @@
                     "description": "Mining simulator :)",
                     "genre": "Simulator",
                     "studio": "Mojang",
-                    "release": "31-01-2015"
+                    "releasedate": "2015-01-31"
                 }
             }
         }
