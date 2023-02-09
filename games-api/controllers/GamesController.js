@@ -52,6 +52,26 @@ exports.deleteById = async (req, res) => {
   res.status(204).send()
 }
 
+exports.updateById = async (req,res) => {
+  let result
+  delete req.body.id
+  try {
+    result = await Game.update(req.body,{ where: { id: req.params.id } })
+  } catch (error) {
+    console.log("GamesUpdate: ",error)
+    res.status(500).send({ error: "Something went wrong on our side. Sorry :(" })
+    return
+  }
+  if (result === 0) {
+    res.status(404).send({ error: "Game not found" })
+    return
+  }
+  const game = await Game.findByPk(req.params.id)
+  res.status(200)
+      .location(`${getBaseUrl(req)}/games/${game.id}`)
+      .json(game)  
+}
+
 getBaseUrl = (request) => {
   return (
     (request.connection && request.connection.encrypted ? "https" : "http") +
