@@ -22,5 +22,9 @@ module.exports = (sequelize, Sequelize, Game, Player) => {
   })
   Game.belongsToMany(Player, { through: GamePlay })
   Player.belongsToMany(Game, { through: GamePlay })
+  Game.hasMany(GamePlay)
+  GamePlay.belongsTo(Game)
+  Player.hasMany(GamePlay)
+  GamePlay.belongsTo(Player)
   return GamePlay
 }
