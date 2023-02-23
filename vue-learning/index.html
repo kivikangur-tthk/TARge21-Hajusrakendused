@@ -16,9 +16,9 @@
 <body>
     <div id="app">
         <!--
-        <button v-bind:class="buttonClasses">Click Me</button>    
+        <button v-bind:class="active ? 'text-red' : 'text-green'" v-on:click="toggle">Click Me</button>    
         -->
-        <button :class="active ? 'text-red' : 'text-green'" v-on:click="toggle">Click Me</button>            </div>
+        <button       :class="active ? 'text-red' : 'text-green'"     @click="toggle">Click Me</button>            </div>
     <script>
         Vue.createApp({
             data() {
