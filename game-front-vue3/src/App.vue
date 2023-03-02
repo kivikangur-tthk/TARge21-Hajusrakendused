@@ -18,11 +18,7 @@
 export default {
   data() {
     return {
-      msg: "Hello world",
-      games: [
-        // { id: 1, name: "Minecraft" },
-        // { id: 2, name: "Minesweeper" },
-      ],
+      games: [],
     };
   },
   async created() {
