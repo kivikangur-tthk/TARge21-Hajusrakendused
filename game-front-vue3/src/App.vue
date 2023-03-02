@@ -6,23 +6,63 @@
       </caption>
       <tr>
         <th>Nimi</th>
+        <th></th>
       </tr>
       <tr v-for="game in games" :key="game.id">
         <td>{{ game.name }}</td>
+        <td><button @click="gameDetailId = game.id">Kuva detailid</button></td>
       </tr>
     </table>
   </div>
+  <Teleport to="body">
+    <!-- use the modal component, pass in the prop -->
+    <modal :show="showModal" @close="showModal = false">
+      <template #header>
+        <h3>Mängu Üksikasjad</h3>
+      </template>
+      <template #body>
+        <b>Nimi:</b>{{ currentGame.name }}<br />
+        <b>Kirjeldus:</b>{{ currentGame.description }}<br />
+        <b>Teema valdkond:</b>{{ currentGame.genre }}<br />
+        <b>Stuudio:</b>{{ currentGame.studio }}<br />
+        <b>Avalikustamine:</b>{{ currentGame.releasedate }}<br />
+      </template>
+    </modal>
+  </Teleport>
 </template>
 
 <script>
+import Modal from "./components/Modal.vue";
+
 export default {
+  components: {
+    Modal,
+  },
   data() {
     return {
       games: [],
+      showModal: false,
+      gameDetailId: 0,
+      currentGame: {
+        id: 0,
+        name: "",
+        description: "",
+        studio: "",
+        genre: "",
+        releasedate: "",
+      },
     };
   },
   async created() {
     this.games = await (await fetch("http://localhost:8090/games")).json();
+  },
+  watch: {
+    async gameDetailId(newId) {
+      this.currentGame = await (
+        await fetch(`http://localhost:8090/games/${newId}`)
+      ).json();
+      this.showModal = true;
+    },
   },
 };
 </script>
