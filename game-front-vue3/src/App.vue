@@ -10,7 +10,7 @@
   </div>
   <Teleport to="body">
     <!-- use the modal component, pass in the prop -->
-    <modal :show="showModal" @close="showModal = false">
+    <modal :show="gameDetailId != 0" @close="gameDetailId = 0">
       <template #header>
         <h3>Mängu Üksikasjad</h3>
       </template>
@@ -37,7 +37,6 @@ export default {
   data() {
     return {
       games: [],
-      showModal: false,
       gameDetailId: 0,
       currentGame: {
         id: 0,
@@ -54,10 +53,10 @@ export default {
   },
   watch: {
     async gameDetailId(newId) {
+      if (newId == 0) return;
       this.currentGame = await (
         await fetch(`http://localhost:8090/games/${newId}`)
       ).json();
-      this.showModal = true;
     },
   },
 };
