@@ -1,4 +1,5 @@
-const gamesController = require("../controllers/GamesController.js")
+const gamesController = require("../controllers/GamesController")
+const gamePlaysController = require("../controllers/GamePlaysController")
 
 module.exports = (app) => {
     app.route("/games")
@@ -8,4 +9,7 @@ module.exports = (app) => {
         .get(gamesController.getById)       // Read
         .put(gamesController.updateById)    // Update
         .delete(gamesController.deleteById) // Delete
+    
+    app.route("/gamePlays")
+        .get(gamePlaysController.getAll)
 }

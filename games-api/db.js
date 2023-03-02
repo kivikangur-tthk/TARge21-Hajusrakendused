@@ -16,6 +16,8 @@ const db = {}
 db.Sequelize = Sequelize
 db.sequelize = sequelize
 db.games = require("./models/Game.model")(sequelize,Sequelize)
+db.players = require("./models/Player.model")(sequelize,Sequelize)
+db.gamePlays = require("./models/GamePlay.model")(sequelize,Sequelize,db.games,db.players)
 
 async function Sync() {
     await sequelize.sync({alter:true}) // alter existing table
