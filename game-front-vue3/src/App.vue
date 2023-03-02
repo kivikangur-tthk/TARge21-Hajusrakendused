@@ -1,30 +1,35 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
-</script>
-
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div>
+    <table border="1">
+      <caption>
+        Kõik mängud
+      </caption>
+      <tr>
+        <th>Nimi</th>
+      </tr>
+      <tr v-for="game in games" :key="game.id">
+        <td>{{ game.name }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      msg: "Hello world",
+      games: [
+        // { id: 1, name: "Minecraft" },
+        // { id: 2, name: "Minesweeper" },
+      ],
+    };
+  },
+  async created() {
+    this.games = await (await fetch("http://localhost:8090/games")).json();
+  },
+};
+</script>
 
 <style scoped>
 header {
