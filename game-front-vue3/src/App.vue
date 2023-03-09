@@ -8,56 +8,28 @@
     >
     </table-template>
   </div>
-  <Teleport to="body">
-    <!-- use the modal component, pass in the prop -->
-    <modal :show="gameDetailId != 0" @close="gameDetailId = 0">
-      <template #header>
-        <h3>Mängu Üksikasjad</h3>
-      </template>
-      <template #body>
-        <b>Nimi:</b>{{ currentGame.name }}<br />
-        <b>Kirjeldus:</b>{{ currentGame.description }}<br />
-        <b>Teema valdkond:</b>{{ currentGame.genre }}<br />
-        <b>Stuudio:</b>{{ currentGame.studio }}<br />
-        <b>Avalikustamine:</b>{{ currentGame.releasedate }}<br />
-      </template>
-    </modal>
-  </Teleport>
+  <game-details
+    :gameDetailId="gameDetailId"
+    @close="gameDetailId = 0"
+  ></game-details>
 </template>
 
 <script>
-import Modal from "./components/Modal.vue";
 import TableTemplate from "./components/Table.vue";
-
+import GameDetails from "./components/GameDetails.vue";
 export default {
   components: {
-    Modal,
     TableTemplate,
+    GameDetails,
   },
   data() {
     return {
       games: [],
       gameDetailId: 0,
-      currentGame: {
-        id: 0,
-        name: "",
-        description: "",
-        studio: "",
-        genre: "",
-        releasedate: "",
-      },
     };
   },
   async created() {
     this.games = await (await fetch("http://localhost:8090/games")).json();
-  },
-  watch: {
-    async gameDetailId(newId) {
-      if (newId == 0) return;
-      this.currentGame = await (
-        await fetch(`http://localhost:8090/games/${newId}`)
-      ).json();
-    },
   },
 };
 </script>
