@@ -1,27 +1,38 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-</script>
-
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">All games</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div>
+    <table-template
+      caption="Kõik mängud"
+      :items="games"
+      :showControls="true"
+      @show="gameDetailId = $event.id"
+    >
+    </table-template>
+  </div>
+  <game-details
+    :gameDetailId="gameDetailId"
+    @close="gameDetailId = 0"
+  ></game-details>
 </template>
+
+<script>
+import TableTemplate from "../components/Table.vue";
+import GameDetails from "../components/GameDetails.vue";
+export default {
+  components: {
+    TableTemplate,
+    GameDetails,
+  },
+  data() {
+    return {
+      games: [],
+      gameDetailId: 0,
+    };
+  },
+  async created() {
+    this.games = await (await fetch("http://localhost:8090/games")).json();
+  },
+};
+</script>
 
 <style scoped>
 header {

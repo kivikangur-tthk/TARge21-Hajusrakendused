@@ -42,13 +42,14 @@ export default {
   },
   beforeUpdate() {
     if (this.gameDetailId == 0) return;
-    this.getDetails()
+    this.getDetails();
   },
   methods: {
     async getDetails() {
       this.currentGame = await (
         await fetch(`http://localhost:8090/games/${this.gameDetailId}`)
       ).json();
+      console.log(this.currentGame);
     },
   },
 };
