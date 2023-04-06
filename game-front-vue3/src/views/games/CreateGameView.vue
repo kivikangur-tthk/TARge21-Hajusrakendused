@@ -1,0 +1,168 @@
+<template>
+  <div class="container">
+    <div v-if="error">
+      <span v-for="(message, index) in error" :key="index">
+        {{ message }} <br />
+      </span>
+    </div>
+    <form @submit.prevent="formSubmitHandler">
+      <div class="row">
+        <div class="col-25">
+          <label for="name">Nimi</label>
+        </div>
+        <div class="col-75">
+          <input id="name" type="text" v-model="name" required />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="description">Kirjeldus</label>
+        </div>
+        <div class="col-75">
+          <textarea id="description" v-model="description" required></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="studio">Stuudio</label>
+        </div>
+        <div class="col-75">
+          <input id="studio" type="text" v-model="studio" required />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="genre">Žanr</label>
+        </div>
+        <div class="col-75">
+          <input id="genre" type="text" v-model="genre" required />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="releaseDate">Väljastus kuupäev</label>
+        </div>
+        <div class="col-75">
+          <input id="releaseDate" v-model="releaseDate" type="date" required />
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <input type="submit" value="Lisa mäng" />
+      </div>
+    </form>
+  </div>
+</template>
+<script>
+const API_URL = "http://localhost:8090/games";
+export default {
+  data() {
+    return {
+      error: "",
+      name: "Test",
+      description: "Test kirjeldus",
+      studio: "Test stuudio",
+      genre: "Test žanr",
+      releaseDate: "2023-04-06",
+    };
+  },
+  methods: {
+    formSubmitHandler() {
+      const newGame = {
+        name: this.name,
+        description: this.description,
+        studio: this.studio,
+        genre: this.genre,
+        releaseDate: this.releaseDate,
+      };
+      fetch(API_URL, {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newGame),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (!data.error) {
+            this.$router.push("/");
+            return;
+          }
+          this.error = data.error;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type="submit"] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+
+  .col-25,
+  .col-75,
+  input[type="submit"] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+</style>

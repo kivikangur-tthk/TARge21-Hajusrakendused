@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link to="/addGame">Lisa uus mäng</router-link>
     <table-template
       caption="Kõik mängud"
       :items="games"
@@ -15,12 +16,14 @@
 </template>
 
 <script>
-import TableTemplate from "../components/Table.vue";
-import GameDetails from "../components/GameDetails.vue";
+import TableTemplate from "../../components/Table.vue";
+import GameDetails from "../../components/GameDetails.vue";
+import { RouterLink } from "vue-router";
 export default {
   components: {
     TableTemplate,
     GameDetails,
+    RouterLink,
   },
   data() {
     return {
