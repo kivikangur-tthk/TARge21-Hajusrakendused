@@ -27,7 +27,12 @@
           <label for="studio">Stuudio</label>
         </div>
         <div class="col-75">
-          <input id="studio" type="text" v-model="studio" required />
+          <input type="text" v-model="studio" list="studio" required />
+          <datalist id="studio">
+            <option v-for="item in studios" :key="item" :value="item">
+              {{ item }}
+            </option>
+          </datalist>
         </div>
       </div>
       <div class="row">
@@ -61,10 +66,14 @@ export default {
       error: "",
       name: "Test",
       description: "Test kirjeldus",
-      studio: "Test stuudio",
+      studio: "",
       genre: "Test žanr",
       releaseDate: "2023-04-06",
+      studios: [],
     };
+  },
+  async created() {
+    this.studios = await (await fetch("http://localhost:8090/studios")).json();
   },
   methods: {
     formSubmitHandler() {
@@ -73,7 +82,7 @@ export default {
         description: this.description,
         studio: this.studio,
         genre: this.genre,
-        releaseDate: this.releaseDate,
+        releasedate: this.releaseDate,
       };
       fetch(API_URL, {
         method: "post",

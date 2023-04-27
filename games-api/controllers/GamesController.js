@@ -6,6 +6,16 @@ exports.getAll = async (req, res) => {
   res.send(games)
 }
 
+exports.getStudios = async (req, res) => {
+  const games = await Game.findAll({
+     attributes: ["studio"],
+     order:[
+      ["studio","ASC"]
+     ]
+    })
+  res.send([... new Set(games.map(item=>item.studio))])
+}
+
 exports.getById = async (req, res) => {
   const games = await Game.findByPk(req.params.id)
   if (games === null) {

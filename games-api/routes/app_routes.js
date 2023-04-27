@@ -12,4 +12,7 @@ module.exports = (app) => {
     
     app.route("/gamePlays")
         .get(gamePlaysController.getAll)
+
+    app.route("/studios")
+        .get(gamesController.getStudios)
 }
