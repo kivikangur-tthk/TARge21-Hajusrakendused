@@ -7,6 +7,7 @@ module.exports = (sequelize, Sequelize, Game, Player) => {
     },
     gameId: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       references: {
         model: Game,
         key: "id",
@@ -14,6 +15,7 @@ module.exports = (sequelize, Sequelize, Game, Player) => {
     },
     playerId: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       references: {
         model: Player,
         key: "id",

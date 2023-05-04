@@ -49,7 +49,6 @@ export default {
       this.currentGame = await (
         await fetch(`http://localhost:8090/games/${this.gameDetailId}`)
       ).json();
-      console.log(this.currentGame);
     },
   },
 };
